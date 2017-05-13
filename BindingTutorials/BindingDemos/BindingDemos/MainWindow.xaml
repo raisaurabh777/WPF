@@ -1,0 +1,59 @@
+﻿<Window x:Class="BindingDemos.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BindingDemos"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <local:YesNoToBooleanConverter x:Key="YesNoBooleanValueConverter"/>
+    </Window.Resources>
+    <ScrollViewer>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Margin="10" Grid.Row="0">
+                <TextBox x:Name="SrcTextBox" Width="200"/>
+                <WrapPanel>
+                    <TextBlock Text="Value is :"/>
+                    <TextBlock Text="{Binding Path=Text, ElementName=SrcTextBox}" />
+                </WrapPanel>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Row="1">
+                <WrapPanel>
+                    <TextBlock Text="Window Title: "/>
+                    <TextBox x:Name="TitleTextBox" Text="{Binding Title, UpdateSourceTrigger=Explicit}" Width="100"/>
+                    <Button x:Name="UpdateScrcBtn" Content="Update Source" Click="UpdateScrcBtn_Click" />
+                </WrapPanel>
+                <WrapPanel>
+                    <TextBlock Text="Height: "/>
+                    <TextBox Text="{Binding Height, UpdateSourceTrigger=LostFocus}" Width="100"/>
+                    <TextBlock Text=" X "/>
+                    <TextBlock Text="Width: "/>
+                    <TextBox Text="{Binding Width, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
+                </WrapPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <ListBox x:Name="UsersListBox" DisplayMemberPath="Name" Width="200"/>
+                <StackPanel Orientation="Vertical">
+                    <Button x:Name="AddNewUserBtn" Content="Add New User" Click="AddNewUserBtn_Click"/>
+                    <Button x:Name="RenameUserBtn" Content="Rename User" Click="RenameUserBtn_Click"/>
+                    <Button x:Name="DeleteUserBtn" Content="Delete User" Click="DeleteUserBtn_Click"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel x:Name="ValueConverterPartStackPanel" Grid.Row="3" Orientation="Vertical">
+                <TextBox x:Name="YesNoTextBox" Width="100"/>
+                <WrapPanel>
+                    <TextBlock Text="Value is: "/>
+                    <TextBlock x:Name="ValueTextBlock" Text="{Binding Path=Text, ElementName=YesNoTextBox, Converter={StaticResource YesNoBooleanValueConverter}}"  Width="100"/>
+                </WrapPanel>
+                <CheckBox x:Name="YesNoCheckBox" IsChecked="{Binding Path=Text, ElementName=YesNoTextBox, Converter={StaticResource YesNoBooleanValueConverter}}" Content="Yes"/>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Window>
